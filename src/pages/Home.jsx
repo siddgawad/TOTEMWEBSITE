@@ -69,7 +69,7 @@ className={`w-full h-full bg-black
     
     </Suspense>
   </Canvas>
-{/* <animated.div 
+<animated.div 
               style={textAnimation} 
               className={`absolute z-10 ${
                   isMobile ? 'bottom-10 left-5 right-5' : 'top-72 left-10'
@@ -89,7 +89,8 @@ className={`w-full h-full bg-black
               <p className="text-sm text-white mt-4 max-w-md">
                   We design and develop software and games that captivate and inspire
               </p>
-          </animated.div> */}
+          </animated.div>
+          
     </section>
   )
 }
