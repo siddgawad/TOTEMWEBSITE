@@ -1,13 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Anton:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+
 @font-face {
-  font-family: 'FordsFollyW02';
-  src: url('/src/fords-folly-cufonfonts/FordsFollyRg.TTF') format('TTF'),
-       url('/src/fords-folly-cufonfonts/FordsFollyBoldIt.TTF') format('TTF');
-  font-weight: 400;
+  font-family: 'FordsFolly';
+  src: url('./OnlineWebFonts_COM_773e1c05d7aeddf0fb431242c2620930/FF/regg.woff2') format('woff2'),
+       url('./OnlineWebFonts_COM_773e1c05d7aeddf0fb431242c2620930/FF/reg.woff') format('woff');
+  font-weight: normal;
   font-style: normal;
 }
-
 
 @tailwind base;
 @tailwind components;

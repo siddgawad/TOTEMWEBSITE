@@ -1,23 +1,28 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   return (
-    <header className="header">
-    <NavLink to="/" className="w-contain h-full rounded-lg bg-white
-     items-center justify-center flex font-bold shadow-md">
-    <p>TOTEM</p>
-    </NavLink>
-    <nav className='flex text-lg gap-7 font-medium'>
-        <NavLink to='/about' className={({ isActive }) => isActive ? "text-blue-600" : "text-white" }>
-          About
-        </NavLink>
-        <NavLink to='/projects' className={({ isActive }) => isActive ? "text-blue-600" : "text-white"}>
-          Projects
-        </NavLink>
-      </nav>
-    </header>
-  )
-}
+    <header className="fixed top-6 w-full z-50 px-10 py-6 flex justify-between items-center bg-transparent">
+      {/* Logo */}
+      <Link to="/" className="flex items-center">
+        <img src="/path-to-your-logo.svg" alt="Totem Logo" className="h-8 w-auto" />
+      </Link>
 
-export default Navbar
+      {/* Right side buttons */}
+      <div className="flex items-center space-x-4">
+        {/* Projects button */}
+        <button className="text-white hover:text-gray-300 transition-colors">
+          ⋮
+        </button>
+
+        {/* Hamburger menu button */}
+        <button className="text-white hover:text-gray-300 transition-colors">
+          ☰
+        </button>
+      </div>
+    </header>
+  );
+};
+
+export default Navbar;

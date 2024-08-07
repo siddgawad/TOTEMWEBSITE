@@ -5,7 +5,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        customGreen: '#B8ED0B',
+      },
+      fontFamily: {
+        anton: ['Anton', 'sans-serif'],
+        fordsFolly: ['FordsFolly', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

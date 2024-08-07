@@ -1,17 +1,23 @@
 
 
-import React, { useRef, useEffect, useState } from 'react'
-import { useGLTF, PerspectiveCamera } from '@react-three/drei'
-import { useFrame, useThree } from '@react-three/fiber'
+import React, { useRef, useEffect, useState, Suspense } from 'react'
+import { useGLTF, PerspectiveCamera, useAnimations, Environment } from '@react-three/drei';
+import { useFrame, useThree, useLoader, extend   } from '@react-three/fiber'
 import totemscene from '../models/Arjun.glb'
 import { a } from '@react-spring/three'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
+import * as THREE from 'three';
+import hdr from '../hdr/NewWebBg.hdr'
+import { PMREMGenerator, UnsignedByteType } from 'three';
+
+
 
 const Totem = ({ ...props }) => {
   const totemref = useRef();
   const totemLogoRef = useRef();
   const totemLogo001Ref = useRef();
   const energy010Ref = useRef();
-  const { gl } = useThree();
+  const { gl, scene } = useThree();
   const { nodes, materials } = useGLTF(totemscene);
 
   const [isRotating, setIsRotating] = useState(false);
@@ -40,8 +46,31 @@ const Totem = ({ ...props }) => {
       energy010Ref.current.rotation.y -= 0.02;
     }
   });
+ 
+  useEffect(() => {
+    const pmremGenerator = new PMREMGenerator(gl);
+    pmremGenerator.compileEquirectangularShader();
+
+    new RGBELoader()
+    .setDataType(THREE.UnsignedByteType)
+    .load(hdr, (texture) => {
+        console.log("HDR file loaded successfully!");
+
+        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+
+        // Set the HDR as the environment and background for the scene
+        scene.background = envMap;
+        scene.environment = envMap;
+
+        texture.dispose();
+        pmremGenerator.dispose();
+      });
+  }, [gl, scene]);
+
 
   return (
+    <>
+      <Suspense fallback={null}>
     <a.group ref={totemref} {...props} onClick={handleClick} >
        <group name="Scene">
         <group name="ThreeJs02glb">
@@ -382,6 +411,9 @@ const Totem = ({ ...props }) => {
         </directionalLight>
       </group>
     </a.group>
+    </Suspense>
+
+    </>
   )
 }
 
