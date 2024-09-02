@@ -1,15 +1,12 @@
-
-
-import React, { useRef, useEffect, useState, Suspense } from 'react'
-import { useGLTF, PerspectiveCamera, useAnimations, Environment } from '@react-three/drei';
-import { useFrame, useThree, useLoader, extend   } from '@react-three/fiber'
-import totemscene from '../models/Arjun.glb'
-import { a } from '@react-spring/three'
+import React, { useRef, useEffect, useState } from 'react'
+import { useGLTF, PerspectiveCamera } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber'
+import { a, useSpring, config } from '@react-spring/three'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader';
 import * as THREE from 'three';
+import totemscene from '../models/Arjun.glb'
 import hdr from '../hdr/NewWebBg.hdr'
-import { PMREMGenerator, UnsignedByteType } from 'three';
-
+import { PMREMGenerator } from 'three';
 
 
 const Totem = ({ ...props }) => {
@@ -26,24 +23,24 @@ const Totem = ({ ...props }) => {
     setIsRotating(!isRotating);
   };
 
-  const handleScroll = (event) => {
-    if (isRotating) {
-      totemLogo001Ref.current.rotation.z -= 0.1;
-      energy010Ref.current.rotation.z += 0.1;
-    }
-  };
+  // const handleScroll = (event) => {
+  //   if (isRotating) {
+  //     totemLogo001Ref.current.rotation.z -= 0.1;
+  //     energy010Ref.current.rotation.z += 0.1;
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [isRotating]);
+  // useEffect(() => {
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll);
+  //   };
+  // }, [isRotating]);
 
   useFrame(() => {
     if (isRotating) {
-      totemLogo001Ref.current.rotation.z -= 0.01;
-      energy010Ref.current.rotation.y -= 0.02;
+      totemLogo001Ref.current.rotation.z += 0.05;
+      energy010Ref.current.rotation.y -= 0.1;
     }
   });
  
@@ -54,24 +51,19 @@ const Totem = ({ ...props }) => {
     new RGBELoader()
     .setDataType(THREE.UnsignedByteType)
     .load(hdr, (texture) => {
-        console.log("HDR file loaded successfully!");
-
-        const envMap = pmremGenerator.fromEquirectangular(texture).texture;
-
-        // Set the HDR as the environment and background for the scene
-        scene.background = envMap;
-        scene.environment = envMap;
-
-        texture.dispose();
-        pmremGenerator.dispose();
-      });
-  }, [gl, scene]);
+      const envMap = pmremGenerator.fromEquirectangular(texture).texture;
+      scene.background = envMap;
+      scene.environment = envMap;
+      texture.dispose();
+      pmremGenerator.dispose();
+    });
+}, [gl, scene]);
 
 
   return (
     <>
-      <Suspense fallback={null}>
-    <a.group ref={totemref} {...props} onClick={handleClick} >
+      {/* <Suspense fallback={null}> */}
+    <a.group ref={totemref} {...props} >
        <group name="Scene">
         <group name="ThreeJs02glb">
           <group name="Final_Scene_Light_Bakingglb">
@@ -340,7 +332,7 @@ const Totem = ({ ...props }) => {
               scale={[0.11291721, 0.11291723, 0.11291722]}
             />
           </group>
-          <group name="Totem_Logo_Websiteglb" ref={totemLogoRef}>
+          <group name="Totem_Logo_Websiteglb" ref={totemLogoRef} onClick={handleClick}>
             <mesh
               name="Totem_logo001"
               castShadow
@@ -411,7 +403,7 @@ const Totem = ({ ...props }) => {
         </directionalLight>
       </group>
     </a.group>
-    </Suspense>
+    {/* </Suspense> */}
 
     </>
   )
