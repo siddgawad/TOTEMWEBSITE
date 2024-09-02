@@ -10,8 +10,8 @@ import { ChevronDown } from 'lucide-react';
 const AnimatedTotem = ({ scrollProgress, ...props }) => {
   const { position, scale, rotation } = useSpring({
     position: [
-      scrollProgress < 0.33 ? 0 : scrollProgress < 0.67 ? -2 : 2,
-      scrollProgress < 0.33 ? -1.75 : scrollProgress < 0.67 ? 0 : -1.75,
+      scrollProgress < 0.33 ? 3 : scrollProgress < 0.67 ? -2 : 2,
+      scrollProgress < 0.33 ? -1.5 : scrollProgress < 0.67 ? 0 : -1.75,
       5 - scrollProgress * 3
     ],
     scale: [1.5, 1.5, 1.5],
@@ -26,7 +26,7 @@ const CameraController = ({ scrollProgress }) => {
   const { camera } = useThree();
   useFrame(() => {
     camera.position.z = 5 - scrollProgress * 2;
-    camera.position.x = scrollProgress < 0.25 ? 0 : -2;
+    camera.position.x = 0 - scrollProgress;
     camera.lookAt(0, 0, 0);
   });
   return null;
